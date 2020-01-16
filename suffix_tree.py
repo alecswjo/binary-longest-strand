@@ -18,23 +18,6 @@ class SuffixTree:
         self.sentinel_indexes = []
         self.build_helper(input_list)
 
-    def label_nodes(self, input_node):
-        """Labels the nodes of the Generalized Suffix Tree with indexes of strings found in their descendants"""
-        if input_node.leaf_verify():
-            result = {self.first_index(input_node.index)}
-        else:
-            result = {node for nodes in input_node.transition_links for node in nodes[0].general_indexes}
-        input_node.general_indexes = result
-
-    def first_index(self, index):
-        """Returns the index of the string based on node's starting index"""
-        counter = 0
-        for index2 in self.sentinel_indexes[1:]:
-            if index < index2:
-                return counter
-            counter += 1
-        return counter
-
     def build_helper(self, list):
         """Helper function before building the Suffix Tree.
 
@@ -78,6 +61,23 @@ class SuffixTree:
             current_depth -= 1
             if current_depth < 0:
                 current_depth = 0
+
+    def label_nodes(self, input_node):
+        """Labels the nodes of the Generalized Suffix Tree with indexes of strings found in their descendants"""
+        if input_node.leaf_verify():
+            result = {self.first_index(input_node.index)}
+        else:
+            result = {node for nodes in input_node.transition_links for node in nodes[0].general_indexes}
+        input_node.general_indexes = result
+
+    def first_index(self, index):
+        """Returns the index of the string based on node's starting index"""
+        counter = 0
+        for index2 in self.sentinel_indexes[1:]:
+            if index < index2:
+                return counter
+            counter += 1
+        return counter
 
     def new_node(self, input, current_node, depth):
         """Creates a new (non-leaf) node for the suffix tree"""

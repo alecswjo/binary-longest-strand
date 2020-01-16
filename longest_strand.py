@@ -1,14 +1,13 @@
 #!/usr/bin/python
 
 import suffix_tree
-
+import os
 
 def longest_strand(*args):
     """
     Given a large number of binary files, this program finds the longest strand of bytes that is identical between
-    two or more files by constructing a Generalized Suffix Tree. The program then returns the deepest node that has
-    been created by at least two strings. This deepest node contains the longest strand of bytes that is identical
-    between two or more files.
+    two or more files by constructing a Generalized Suffix Tree. The program then calls longest_strand to print the
+    longest strand of bytes.
 
         :param args: a list of binary files
         :return: Prints the following:
@@ -25,9 +24,13 @@ def longest_strand(*args):
         print("Error! Need more than 2 binary files.")
         return
 
+    # Accessing test files in a different directory
+    current_directory = os.getcwd()
+    file_path = current_directory + '/test_samples/'
+
     # Looping through each file and storing the file's name as the key and the hex data as the value in a dictionary
     for file in args:
-        with open(file, 'rb') as f:
+        with open(file_path + file, 'rb') as f:
             hex_data = f.read().hex()
             file_dict[file] = hex_data
             # print('Hex data for', file, ':', file_dict[file])

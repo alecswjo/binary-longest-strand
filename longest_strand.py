@@ -33,7 +33,6 @@ def longest_strand(*args):
         with open(file_path + file, 'rb') as f:
             hex_data = f.read().hex()
             file_dict[file] = hex_data
-            # print('Hex data for', file, ':', file_dict[file])
 
     # Building the Suffix Tree
     hex_data_list = list(file_dict.values())
@@ -44,9 +43,8 @@ def longest_strand(*args):
     print("The length of the strand is:", len(longest_strand))
 
     # Figuring out the offset where the strand appears in each file
-    file_names = list(file_dict.keys())
+    file_names, iter_offset_list = list(file_dict.keys()), iter(offset_list)
     file_length = 0
-    iter_offset_list = iter(offset_list)
     helper_list = []
 
     for file_number in indexes:
